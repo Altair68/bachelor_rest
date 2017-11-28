@@ -8,9 +8,10 @@ db = MySQLdb.connect(user="root", passwd="gpm17", db="gpm_server2")
 def insertThesis(student_id: hug.types.text, title: hug.types.text, supervisor: hug.types.text):
     c = db.cursor()
     c.execute("""INSERT INTO thesis (student_id, title, supervisor, approved) VALUES (%s, %s, %s , %s)""", (student_id, title, supervisor, -1))
+    result = c.fetchall()
     c.close()
     db.commit()
-    return "Thesis inserted"
+    return result
 
 @hug.post("/updateThesis", )
 def updateThesis(student_id: hug.types.text, title: hug.types.text, supervisor: hug.types.text, approved: hug.types.text):
@@ -21,17 +22,17 @@ def updateThesis(student_id: hug.types.text, title: hug.types.text, supervisor: 
     return "Thesis inserted"
 
 @hug.post("/approveThesis", )
-def approveThesis(student_id: hug.types.text):
+def approveThesis(id: hug.types.text):
     c = db.cursor()
-    c.execute("""UPDATE thesis SET approved=1 WHERE student_id = %s""", (student_id))
+    c.execute("""UPDATE thesis SET approved=1 WHERE id = %s""", (student_id))
     c.close()
     db.commit()
     return "Thesis approved"
 
 @hug.post("/rejectThesis", )
-def rejectThesis(student_id: hug.types.text):
+def rejectThesis(id: hug.types.text):
     c = db.cursor()
-    c.execute("""UPDATE thesis SET approved=0 WHERE student_id = %s""", (student_id))
+    c.execute("""UPDATE thesis SET approved=0 WHERE id = %s""", (student_id))
     c.close()
     db.commit()
     return "Thesis approved"
