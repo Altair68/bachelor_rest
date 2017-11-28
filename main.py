@@ -31,7 +31,7 @@ def approveThesis(student_id: hug.types.text):
 @hug.post("/rejectThesis", )
 def rejectThesis(student_id: hug.types.text):
     c = db.cursor()
-    c.execute("""UPDATE thesis SET approved=0 WHERE student_id = %s""", (student_id))
+    c:.execute("""UPDATE thesis SET approved=0 WHERE student_id = %s""", (student_id))
     c.close()
     db.commit()
     return "Thesis approved"
@@ -48,5 +48,5 @@ def listThesises():
 @hug.delete("/removeThesis")
 def removeThesis(id: hug.types.text):
     c = db.cursor()
-    c.execute("""DELETE FROM thesis WHERE student_id = %s""", (id,))
+    c.execute("""DELETE FROM thesis WHERE id = %s""", (id,))
     c.close()
