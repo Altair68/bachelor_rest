@@ -55,7 +55,7 @@ def listThesises():
 @hug.get("/studentName")
 def getStudentName(id: hug.types.text):
     c = db_students.cursor()
-    c.execute("SELECT CONCAT(prename, ' ', name) FROM student")
+    c.execute("""SELECT CONCAT(prename, ' ', name) FROM student WHERE id = %s""", (id,))
     result = c.fetchone()
     c.close
     return result[0]
