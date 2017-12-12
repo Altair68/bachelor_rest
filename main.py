@@ -2,6 +2,7 @@ import MySQLdb
 import hug
 
 db = MySQLdb.connect(user="root", passwd="gpm17", db="gpm_server2")
+db_students = MySQLdb.connect(user="root", passwd="gpm17", db="gpm_server1")
 
 
 @hug.put("/insertThesis")
@@ -50,6 +51,14 @@ def listThesises():
     c.close()
 
     return result
+
+@hug.get("/studentName")
+def getStudentName(id: hug.types.text):
+    c = db_students.cursor()
+    c.execute("SELECT CONCAT(prename, ' ', name) FROM student")
+    result = c.fetchone()
+    c.close
+    return result[0]
 
 @hug.delete("/removeThesis")
 def removeThesis(id: hug.types.text):
