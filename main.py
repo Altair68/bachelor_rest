@@ -79,3 +79,11 @@ def insertKolloquiumMark(student_id: hug.types.text, grade: hug.types.text):
     c.execute("""INSERT INTO written_exam (student_id, grade, subject_id) VALUES (%s, %s, (SELECT id FROM subject WHERE name = 'Kolloquium'))""", (student_id, grade,))
     db_students.commit()
     c.close()
+
+@hug.get("/finalGrade")
+def getFinalGrade(student_id: hug.types.text):
+    c = db_students.cursor()
+    c.execute("""SELECT final_grade FROM final_grades WHERE id = %s""", (student_id,))
+    result = c.fetchone()
+    c.close
+    return result[0]
