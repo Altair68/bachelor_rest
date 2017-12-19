@@ -65,3 +65,17 @@ def removeThesis(id: hug.types.text):
     c = db.cursor()
     c.execute("""DELETE FROM thesis WHERE id = %s""", (id,))
     c.close()
+
+@hug.put("/insertBach")
+def insertBachelorMark(student_id: hug.types.text, grade: hug.types.text):
+    c = db_students.cursor()
+    c.execute("""INSERT INTO written_exam (student_id, grade, subject_id) VALUES (%s, %s, (SELECT id FROM subject WHERE name = 'Bachelorarbeit'))""", (student_id, grade,))
+    db_students.commit()
+    c.close()
+
+@hug.put("/insertColl")
+def insertKolloquiumMark(student_id: hug.types.text, grade: hug.types.text):
+    c = db_students.cursor()
+    c.execute("""INSERT INTO written_exam (student_id, grade, subject_id) VALUES (%s, %s, (SELECT id FROM subject WHERE name = 'Kolloquium'))""", (student_id, grade,))
+    db_students.commit()
+    c.close()
